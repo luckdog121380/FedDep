@@ -17,7 +17,7 @@ python main.py -data MNIST -m CNN -algo FedDep -gr 2000 -did 0,1,2,3 # running o
 
 This repository contains **only the necessary modifications** for reproducing **FedDep** and **FedDep-CA** proposed in:
 
-> **Efficient Personalized Federated Learning through Layer-wise Selection and Communication-Aware Optimization**  
+> **FedDep：Personalized Federated Learning through Layer-wise Selection and Communication-Aware Optimization**  
 > (submitted to *Computing and Informatics*)
 
 ⚠️ **Important:** This repo is **not a standalone runnable codebase**.  
