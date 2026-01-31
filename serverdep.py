@@ -8,13 +8,13 @@ from flcore.servers.serverbase import Server
 from threading import Thread
 from utils.data_utils import read_client_data
 
-class FedDTL(Server):
+class Feddep(Server):
     def __init__(self, args, times):
         super().__init__(args, times)
 
         # select slow clients
         self.set_slow_clients()
-        self.set_clients(clientdtl)
+        self.set_clients(clientdep)
         self.current_round = 0
         self.layers_to_aggregate = 1
         self.nns = []
@@ -120,6 +120,7 @@ class FedDTL(Server):
 
         if self.global_rounds < 200:
             self.sparse_reconstruction(sparsity=0.5)
+
 
 
 
