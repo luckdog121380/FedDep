@@ -18,6 +18,8 @@ class Feddep(Server):
         self.current_round = 0
         self.layers_to_aggregate = 1
         self.nns = []
+        #FedDep-CA
+        # self.client_scale = {}  # key: client.id, value: s_i^t
 
         print(f"\nJoin ratio / total clients: {self.join_ratio} / {self.num_clients}")
         print("Finished creating server and clients.")
@@ -32,6 +34,8 @@ class Feddep(Server):
             self.selected_clients = self.select_clients()
             self.send_models()
 
+            #fedDep-CA
+            #self.update_client_scales()
 
             if i % self.eval_gap == 0:
                 print(f"\n-------------Round number: {i}-------------")
@@ -70,6 +74,26 @@ class Feddep(Server):
             print("\nEvaluate new clients")
             self.evaluate()
 
+    #FedDep-CA
+    # def update_client_scales(self, eps=1e-12, gamma=0.5):
+    #     # 1. 计算每个 client 的 update 向量范数
+    #     client_updates = {}
+    #     for cid, cmodel in zip(self.uploaded_ids, self.uploaded_models):
+    #         diff = []
+    #         for gp, cp in zip(self.global_model.parameters(), cmodel.parameters()):
+    #             diff.append((gp.data - cp.data).view(-1))
+    #         client_updates[cid] = torch.cat(diff)
+    #
+    #     # 2. 计算平均更新
+    #     g_bar = torch.mean(torch.stack(list(client_updates.values())), dim=0)
+    #     g_bar_norm = torch.norm(g_bar) + eps
+    #
+    #     # 3. 计算 h_i 和 s_i
+    #     for cid, g_i in client_updates.items():
+    #         h_i = torch.norm(g_i - g_bar) / g_bar_norm
+    #         s_i = 1.0 + gamma * h_i.item()  # 可加 clip
+    #         self.client_scale[cid] = s_i
+
     def send_models(self, start_layer=0, num_layers_to_skip=0):
         assert len(self.clients) > 0, "Client list is empty!"
         total_data_sent = 0  # 初始化通信开销计数
@@ -82,12 +106,21 @@ class Feddep(Server):
             pt = p * t / T
             pl = math.floor(pt)
 
+            # FedDep-CA
+            # pt = p * t / T
+            # s_i = self.client_scale.get(client.id, 1.0)
+            # pl_i = math.floor(pt * s_i)
+
             model_size = sum(param.numel() * param.element_size() for param in self.global_model.parameters())
             total_data_sent += model_size
 
             for idx, ((client_param_name, client_param), (global_param_name, global_param)) in enumerate(
                     zip(reversed(list(client.model.named_parameters())),
                         reversed(list(self.global_model.named_parameters())))):
+                #FedDep-CA
+                # if idx >= pl_i:
+                #     client_param.data = global_param.data.clone()
+
                 if idx >=pl:
                     client_param.data = global_param.data.clone()  # 更新参数
                 else:
@@ -120,10 +153,4 @@ class Feddep(Server):
 
         if self.global_rounds < 200:
             self.sparse_reconstruction(sparsity=0.5)
-
-
-
-
-
-
 
