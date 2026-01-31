@@ -12,7 +12,7 @@ os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 
 
 
-class clientdtl(Client):
+class clientdep(Client):
     def __init__(self, args, id, train_samples, test_samples, **kwargs):
         super().__init__(args, id, train_samples, test_samples, **kwargs)
         self.current_round=0
@@ -51,4 +51,5 @@ class clientdtl(Client):
 
         self.train_time_cost['num_rounds'] += 1
         self.train_time_cost['total_cost'] += time.time() - start_time
+
 
