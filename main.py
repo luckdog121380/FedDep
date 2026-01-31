@@ -9,7 +9,7 @@ import torchvision
 import logging
 
 from flcore.servers.serveravg import FedAvg
-from flcore.servers.serverdtl import FedDTL
+from flcore.servers.serverdep import FedDep
 from flcore.servers.serverpFedMe import pFedMe
 from flcore.servers.serverperavg import PerAvg
 from flcore.servers.serverprox import FedProx
@@ -338,11 +338,11 @@ def run(args):
             args.model.fc = nn.Identity()
             args.model = BaseHeadSplit(args.model, args.head)
             server = FedAvgDBE(args, i)
-        elif args.algorithm == "FedDTL":
+        elif args.algorithm == "FedDep":
             # args.head = copy.deepcopy(args.model.fc)
             # args.model.fc = nn.Identity()
             # args.model = BaseHeadSplit(args.model, args.head)
-            server = FedDTL(args, i)
+            server = FedDep(args, i)
 
 
         else:
