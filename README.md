@@ -7,7 +7,7 @@ This repository provides the implementation of **FedDep**, proposed in:
 
 ## Requirements
 - Python >= 3.8
-- PyTorch >= 1.10
+- PyTorch >= 1.60
 
 ```bash
 cd ./system
