@@ -57,14 +57,14 @@ Copy the files/folders from this repo into the corresponding locations in your l
 
 A typical integration procedure is:
 1. **Overwrite** the matching files in PFLlib with the modified versions from this repo, or
-2. **Add** the new algorithm files (e.g., `feddep.py`, `feddep_ca.py`) into PFLlib’s algorithm module, and
-3. Update the algorithm registry / entry file in PFLlib (if needed) so that `feddep` and `feddep-ca` can be selected.
+2. **Add** the new algorithm files (e.g., `feddep.py`) into PFLlib’s algorithm module, and
+3. Update the algorithm registry / entry file in PFLlib (if needed) so that `feddep` can be selected.
 
 > Please refer to the folder structure in this repo; paths are kept consistent with PFLlib to make integration straightforward.
 
 ---
 
-## 4) Running FedDep / FedDep-CA (After Integration)
+## 4) Running FedDep 
 
 After integration, run experiments using the standard PFLlib command format.
 
